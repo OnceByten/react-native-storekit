@@ -404,7 +404,8 @@ RCT_EXPORT_METHOD(cancel)
                           @"productIdentifier": product.productIdentifier,
                           @"downloadable": (product.downloadable) ? @"True" : @"False",
                           @"downloadContentLengths": product.downloadContentLengths,
-                          @"downloadContentVersion": product.downloadContentVersion
+                          @"downloadContentVersion": product.downloadContentVersion,
+                          @"code":@"1"
                           }];
     }
     
