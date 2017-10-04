@@ -69,8 +69,11 @@ RCT_EXPORT_METHOD(requestProductsCustom:(NSArray *)ids
                   callback:(RCTResponseSenderBlock)_callback)
 {
     if (![SKPaymentQueue canMakePayments]) {
-        NSLog(@"------------需要开启-----------------");
+        NSLog(@"RNStoreKir - canMakePayments = false");
         return;
+    }
+    else {
+        NSLog(@"RNStoreKir - canMakePayments = true");
     }
     //[[RNProductRequest alloc] initWithProductIdentifiers:[NSSet setWithArray:ids] callback:callback];
     request = [[SKProductsRequest alloc] initWithProductIdentifiers:ids];
@@ -394,8 +397,15 @@ RCT_EXPORT_METHOD(cancel)
     NSMutableArray *good = [NSMutableArray arrayWithCapacity:[[response products]count]];
     
     for (SKProduct * product in [response products]) {
-        RNProduct *p = [[RNProduct alloc] initWithProduct:product];
-        [good addObject:p];
+        //RNProduct *p = [[RNProduct alloc] initWithProduct:product];
+        [good addObject:@{@"localizedTitle": product.localizedTitle,
+                          @"price": product.price,
+                          @"priceLocale": product.priceLocale,
+                          @"productIdentifier": product.productIdentifier,
+                          @"downloadable": (product.downloadable) ? @"True" : @"False",
+                          @"downloadContentLengths": product.downloadContentLengths,
+                          @"downloadContentVersion": product.downloadContentVersion
+                          }];
     }
     
     NSMutableDictionary *event = [[NSMutableDictionary alloc] init];
